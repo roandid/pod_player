@@ -22,14 +22,11 @@ class _FullScreenViewState extends State<FullScreenView>
     _podCtr.keyboardFocusWeb?.removeListener(_podCtr.keyboadListner);
     subscription =
         _podCtr.navigatorInterface?.observePop().listen((event) async {
-      if (kIsWeb) {
-        await _podCtr.disableFullScreen(
-          context,
-          widget.tag,
-          enablePop: false,
-        );
-      }
-      if (!kIsWeb) await _podCtr.disableFullScreen(context, widget.tag);
+      await _podCtr.disableFullScreen(
+        context,
+        widget.tag,
+        enablePop: false,
+      );
     });
 
     super.initState();
