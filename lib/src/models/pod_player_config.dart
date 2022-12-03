@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../../pod_player.dart';
 
 class PodPlayerConfig {
   final bool autoPlay;
@@ -41,11 +41,3 @@ class PodPlayerConfig {
     );
   }
 }
-
-abstract class NavigatorInterface {
-  Stream<PopEvent> observePop();
-  void pushDialog(Widget dialog);
-  void pop();
-}
-
-class PopEvent {}
