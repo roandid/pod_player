@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
+
 class PodPlayerConfig {
   final bool autoPlay;
   final bool isLooping;
   final bool forcedVideoFocus;
   final bool wakelockEnabled;
+  final NavigatorInterface? navigatorInterface;
 
   /// Initial video quality priority. The first available option will be used,
   /// from start to the end of this list. If all options informed are not
@@ -17,6 +20,7 @@ class PodPlayerConfig {
     this.forcedVideoFocus = false,
     this.wakelockEnabled = true,
     this.videoQualityPriority = const [1080, 720, 360],
+    this.navigatorInterface,
   });
 
   PodPlayerConfig copyWith({
@@ -25,6 +29,7 @@ class PodPlayerConfig {
     bool? forcedVideoFocus,
     bool? wakelockEnabled,
     List<int>? videoQualityPriority,
+    NavigatorInterface? navigatorInterface,
   }) {
     return PodPlayerConfig(
       autoPlay: autoPlay ?? this.autoPlay,
@@ -32,6 +37,15 @@ class PodPlayerConfig {
       forcedVideoFocus: forcedVideoFocus ?? this.forcedVideoFocus,
       wakelockEnabled: wakelockEnabled ?? this.wakelockEnabled,
       videoQualityPriority: videoQualityPriority ?? this.videoQualityPriority,
+      navigatorInterface: navigatorInterface ?? this.navigatorInterface,
     );
   }
 }
+
+abstract class NavigatorInterface {
+  Stream<PopEvent> observePop();
+  void pushDialog(Widget dialog);
+  void pop();
+}
+
+class PopEvent {}

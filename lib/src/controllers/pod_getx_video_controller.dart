@@ -47,6 +47,7 @@ class PodGetXVideoController extends _PodGesturesController {
     _videoPlayerType = playVideoFrom.playerType;
     podPlayerConfig = playerConfig;
     autoPlay = playerConfig.autoPlay;
+    navigatorInterface = playerConfig.navigatorInterface;
     isLooping = playerConfig.isLooping;
   }
 

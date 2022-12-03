@@ -217,28 +217,41 @@ class _PodVideoController extends _PodUiController {
 
   void _exitFullScreenView(BuildContext context, String tag) {
     podLog('popped-full-screen');
-    Navigator.of(fullScreenContext).pop();
+    if (navigatorInterface != null) {
+      navigatorInterface?.pop();
+    } else {
+      Navigator.of(fullScreenContext).pop();
+    }
   }
 
   void _enableFullScreenView(String tag) {
     if (!isFullScreen) {
       podLog('full-screen-enabled');
 
-      Navigator.push(
-        mainContext,
-        PageRouteBuilder(
-          fullscreenDialog: true,
-          pageBuilder: (BuildContext context, _, __) => FullScreenView(
+      if (navigatorInterface != null) {
+        navigatorInterface?.pushDialog(
+          FullScreenView(
             tag: tag,
           ),
-          reverseTransitionDuration: const Duration(milliseconds: 400),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(
-            opacity: animation,
-            child: child,
+        );
+      } else {
+        Navigator.push(
+          mainContext,
+          PageRouteBuilder(
+            fullscreenDialog: true,
+            pageBuilder: (BuildContext context, _, __) => FullScreenView(
+              tag: tag,
+            ),
+            reverseTransitionDuration: const Duration(milliseconds: 400),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 

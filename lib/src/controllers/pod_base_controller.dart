@@ -13,6 +13,7 @@ class _PodBaseController extends GetxController {
 
   bool autoPlay = true;
   bool _isWebAutoPlayDone = false;
+  NavigatorInterface? navigatorInterface;
 
   ///
   PodVideoState _podVideoState = PodVideoState.loading;
