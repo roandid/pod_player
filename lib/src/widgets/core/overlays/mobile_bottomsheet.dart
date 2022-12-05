@@ -181,6 +181,13 @@ class _VideoPlaybackSelectorMob extends StatelessWidget {
   }
 }
 
+Widget _wrapWithSafeAreaIfFullscreen({
+  required Widget child,
+  required PodGetXVideoController controller,
+}) {
+  return controller.isFullScreen ? SafeArea(child: child) : child;
+}
+
 class _MobileOverlayBottomControlles extends StatelessWidget {
   final String tag;
 
@@ -197,7 +204,8 @@ class _MobileOverlayBottomControlles extends StatelessWidget {
     return GetBuilder<PodGetXVideoController>(
       tag: tag,
       id: 'full-screen',
-      builder: (_podCtr) => SafeArea(
+      builder: (_podCtr) => _wrapWithSafeAreaIfFullscreen(
+        controller: _podCtr,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
