@@ -14,6 +14,7 @@ class _MobileOverlay extends StatelessWidget {
     const itemColor = Colors.white;
     final _podCtr = Get.find<PodGetXVideoController>(tag: tag);
     return SafeArea(
+      bottom: false,
       child: Stack(
         alignment: Alignment.center,
         children: [
