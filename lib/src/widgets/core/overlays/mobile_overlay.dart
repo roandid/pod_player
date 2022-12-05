@@ -13,87 +13,89 @@ class _MobileOverlay extends StatelessWidget {
     const overlayColor = Colors.black38;
     const itemColor = Colors.white;
     final _podCtr = Get.find<PodGetXVideoController>(tag: tag);
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: _VideoGestureDetector(
-                tag: tag,
-                onDoubleTap: _isRtl()
-                    ? _podCtr.onRightDoubleTap
-                    : _podCtr.onLeftDoubleTap,
-                child: ColoredBox(
-                  color: overlayColor,
-                  child: _LeftRightDoubleTapBox(
-                    tag: tag,
-                    isLeft: !_isRtl(),
-                  ),
-                ),
-              ),
-            ),
-            _VideoGestureDetector(
-              tag: tag,
-              child: ColoredBox(
-                color: overlayColor,
-                child: SizedBox(
-                  height: double.infinity,
-                  child: Center(
-                    child: _AnimatedPlayPauseIcon(tag: tag, size: 42),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: _VideoGestureDetector(
-                tag: tag,
-                onDoubleTap: _isRtl()
-                    ? _podCtr.onLeftDoubleTap
-                    : _podCtr.onRightDoubleTap,
-                child: ColoredBox(
-                  color: overlayColor,
-                  child: _LeftRightDoubleTapBox(
-                    tag: tag,
-                    isLeft: _isRtl(),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+    return SafeArea(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Row(
             children: [
               Expanded(
-                child: IgnorePointer(
-                  child: _podCtr.videoTitle ?? const SizedBox(),
+                child: _VideoGestureDetector(
+                  tag: tag,
+                  onDoubleTap: _isRtl()
+                      ? _podCtr.onRightDoubleTap
+                      : _podCtr.onLeftDoubleTap,
+                  child: ColoredBox(
+                    color: overlayColor,
+                    child: _LeftRightDoubleTapBox(
+                      tag: tag,
+                      isLeft: !_isRtl(),
+                    ),
+                  ),
                 ),
               ),
-              MaterialIconButton(
-                toolTipMesg: _podCtr.podPlayerLabels.settings,
-                color: itemColor,
-                onPressed: () {
-                  if (_podCtr.isOverlayVisible) {
-                    _bottomSheet(context);
-                  } else {
-                    _podCtr.toggleVideoOverlay();
-                  }
-                },
-                child: const Icon(
-                  Icons.more_vert_rounded,
+              _VideoGestureDetector(
+                tag: tag,
+                child: ColoredBox(
+                  color: overlayColor,
+                  child: SizedBox(
+                    height: double.infinity,
+                    child: Center(
+                      child: _AnimatedPlayPauseIcon(tag: tag, size: 42),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: _VideoGestureDetector(
+                  tag: tag,
+                  onDoubleTap: _isRtl()
+                      ? _podCtr.onLeftDoubleTap
+                      : _podCtr.onRightDoubleTap,
+                  child: ColoredBox(
+                    color: overlayColor,
+                    child: _LeftRightDoubleTapBox(
+                      tag: tag,
+                      isLeft: _isRtl(),
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
-        ),
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: _MobileOverlayBottomControlles(tag: tag),
-        ),
-      ],
+          Align(
+            alignment: Alignment.topCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: IgnorePointer(
+                    child: _podCtr.videoTitle ?? const SizedBox(),
+                  ),
+                ),
+                MaterialIconButton(
+                  toolTipMesg: _podCtr.podPlayerLabels.settings,
+                  color: itemColor,
+                  onPressed: () {
+                    if (_podCtr.isOverlayVisible) {
+                      _bottomSheet(context);
+                    } else {
+                      _podCtr.toggleVideoOverlay();
+                    }
+                  },
+                  child: const Icon(
+                    Icons.more_vert_rounded,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: _MobileOverlayBottomControlles(tag: tag),
+          ),
+        ],
+      ),
     );
   }
 

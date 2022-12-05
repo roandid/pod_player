@@ -12,64 +12,66 @@ class _MobileBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<PodGetXVideoController>(
       tag: tag,
-      builder: (_podCtr) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (_podCtr.vimeoOrVideoUrls.isNotEmpty)
+      builder: (_podCtr) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_podCtr.vimeoOrVideoUrls.isNotEmpty)
+              _bottomSheetTiles(
+                title: _podCtr.podPlayerLabels.quality,
+                icon: Icons.video_settings_rounded,
+                subText: '${_podCtr.vimeoPlayingVideoQuality}p',
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Timer(const Duration(milliseconds: 100), () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => SafeArea(
+                        child: _VideoQualitySelectorMob(
+                          tag: tag,
+                          onTap: null,
+                        ),
+                      ),
+                    );
+                  });
+                  // await Future.delayed(
+                  //   const Duration(milliseconds: 100),
+                  // );
+                },
+              ),
             _bottomSheetTiles(
-              title: _podCtr.podPlayerLabels.quality,
-              icon: Icons.video_settings_rounded,
-              subText: '${_podCtr.vimeoPlayingVideoQuality}p',
+              title: _podCtr.podPlayerLabels.loopVideo,
+              icon: Icons.loop_rounded,
+              subText: _podCtr.isLooping
+                  ? _podCtr.podPlayerLabels.optionEnabled
+                  : _podCtr.podPlayerLabels.optionDisabled,
+              onTap: () {
+                Navigator.of(context).pop();
+                _podCtr.toggleLooping();
+              },
+            ),
+            _bottomSheetTiles(
+              title: _podCtr.podPlayerLabels.playbackSpeed,
+              icon: Icons.slow_motion_video_rounded,
+              subText: _podCtr.currentPaybackSpeed,
               onTap: () {
                 Navigator.of(context).pop();
                 Timer(const Duration(milliseconds: 100), () {
                   showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
                     builder: (context) => SafeArea(
-                      child: _VideoQualitySelectorMob(
+                      child: _VideoPlaybackSelectorMob(
                         tag: tag,
                         onTap: null,
                       ),
                     ),
                   );
                 });
-                // await Future.delayed(
-                //   const Duration(milliseconds: 100),
-                // );
               },
             ),
-          _bottomSheetTiles(
-            title: _podCtr.podPlayerLabels.loopVideo,
-            icon: Icons.loop_rounded,
-            subText: _podCtr.isLooping
-                ? _podCtr.podPlayerLabels.optionEnabled
-                : _podCtr.podPlayerLabels.optionDisabled,
-            onTap: () {
-              Navigator.of(context).pop();
-              _podCtr.toggleLooping();
-            },
-          ),
-          _bottomSheetTiles(
-            title: _podCtr.podPlayerLabels.playbackSpeed,
-            icon: Icons.slow_motion_video_rounded,
-            subText: _podCtr.currentPaybackSpeed,
-            onTap: () {
-              Navigator.of(context).pop();
-              Timer(const Duration(milliseconds: 100), () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => SafeArea(
-                    child: _VideoPlaybackSelectorMob(
-                      tag: tag,
-                      onTap: null,
-                    ),
-                  ),
-                );
-              });
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
